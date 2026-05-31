@@ -4,7 +4,8 @@
   "description": "[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/CCuAsM6D)",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --transpile-only --respawn src/server.ts"
+    "dev": "ts-node-dev --transpile-only --respawn src/server.ts",
+    "start": "ts-node src/server.ts"
   },
   "repository": {
     "type": "git",
