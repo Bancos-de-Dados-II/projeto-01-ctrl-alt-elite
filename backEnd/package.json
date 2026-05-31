@@ -1,0 +1,33 @@
+{
+  "name": "projeto-01-ctrl-alt-elite",
+  "version": "1.0.0",
+  "description": "[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/CCuAsM6D)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --transpile-only --respawn src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bancos-de-Dados-II/projeto-01-ctrl-alt-elite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bancos-de-Dados-II/projeto-01-ctrl-alt-elite/issues"
+  },
+  "homepage": "https://github.com/Bancos-de-Dados-II/projeto-01-ctrl-alt-elite#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.106.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^6.0.3"
+  }
+}
