@@ -9,7 +9,7 @@ function App() {
   });
 
   useEffect(() => {
-    // Aplica/remove a classe no <html> para o CSS funcionar globalmente
+    // Aplica/remove a classe no <html> para o CSS funcionar
     document.documentElement.classList.toggle('dark', modoEscuro);
     localStorage.setItem('tema', modoEscuro ? 'escuro' : 'claro');
   }, [modoEscuro]);
