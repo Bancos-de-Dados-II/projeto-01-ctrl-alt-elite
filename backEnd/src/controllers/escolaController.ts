@@ -11,7 +11,7 @@ export const buscarEscolas = async (req: Request, res: Response) => {
 
         // 1. CAPTURANDO A PÁGINA (Por padrão, será a página 1)
         const pagina = parseInt(req.query.pagina as string) || 1;
-        const limite = parseInt(req.query.limite as string) || 2000;
+        const limite = parseInt(req.query.limite as string) || 6000;
 
         // 2. MATEMÁTICA DA PAGINAÇÃO
         // Se a página for 1: começa no 0 e vai até 1999
