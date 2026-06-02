@@ -1,0 +1,357 @@
+/* ==========================================================================
+   DESIGN TOKENS & PALETA DE CORES (Otimizado via :root)
+   ========================================================================== */
+:root {
+  /* Cores Principais do Projeto */
+  --terracota: #E35336;
+  --creme: #F5F5DC;
+  --marrom: #A0522D;
+  --laranja-acento: #F4A460;
+  
+  /* Cores de Suporte e Semânticas */
+  --bg-lateral: #ffffff;
+  --border-light: #e2e8f0;
+  --border-dashed: #cbd5e1;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --text-light: #94a3b8;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  
+  /* Status de Acessibilidade */
+  --bg-success: #dcfce7;
+  --text-success: #15803d;
+  --bg-error: #fee2e2;
+  --text-error: #b91c1c;
+}
+
+/* ==========================================================================
+   ESTRUTURA DA TELA & CONTAINERS
+   ========================================================================== */
+.telaDivididaContainer {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  height: 600px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.mapContainer {
+  flex: 1;
+  height: 100% !important;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px var(--shadow-color);
+  border: 1px solid var(--border-light);
+  background-color: #ffffff;
+  position: relative; 
+  display: flex;
+  flex-direction: column;
+}
+
+/* CONTAINER DOS 20% SUPERIORES (Alinha a busca à esquerda e o slider à direita) */
+.topoMapaContainer {
+  height: 20%;
+  width: 100%;
+  padding: 16px 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+}
+
+.barraLateral {
+  flex: 0 0 300px; /* Largura fixa para manter o padrão do grid lateral */
+  background-color: var(--bg-lateral);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ==========================================================================
+   ESTADOS DE CARREGAMENTO (LOADING STATE)
+   ========================================================================== */
+.loadingContainer {
+  height: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--creme);
+  border-radius: 16px;
+  border: 1px dashed var(--laranja-acento);
+  color: var(--marrom);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  gap: 12px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(227, 83, 54, 0.2);
+  border-top: 4px solid var(--terracota);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   SLIDER DE DISTÂNCIA ATUALIZADO (FLUTUANDO NO CANTO SUPERIOR DIREITO DO MAPA)
+   ========================================================================== */
+.sliderSuperior {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 200px; /* Largura idêntica à caixa do seu protótipo */
+}
+
+.sliderLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.sliderValor {
+  color: var(--terracota);
+  background-color: rgba(227, 83, 54, 0.1);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.sliderInput {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  background: var(--border-light);
+  border-radius: 4px;
+  outline: none;
+}
+
+/* Controle deslizante (Chrome/Safari) */
+.sliderInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--terracota);
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+.sliderInput::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  background-color: var(--marrom);
+}
+
+/* Controle deslizante (Firefox) */
+.sliderInput::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: none;
+  border-radius: 50%;
+  background: var(--terracota);
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+.sliderInput::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  background-color: var(--marrom);
+}
+
+/* ==========================================================================
+   CONTROLES GLOBAIS DO LEAFLET (ZOOM & POPUPS)
+   ========================================================================== */
+:global(.leaflet-bar a) {
+  background-color: var(--terracota) !important;
+  color: white !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+:global(.leaflet-bar a:hover) {
+  background-color: var(--marrom) !important;
+}
+
+:global(.leaflet-popup-content-wrapper) {
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 20px 25px -5px var(--shadow-color);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--marrom);
+}
+
+:global(.leaflet-popup-tip) {
+  background: white;
+}
+
+/* ==========================================================================
+   CONTEÚDO DOS POPUPS (DETALHES DA ESCOLA)
+   ========================================================================== */
+.popupTitle {
+  color: var(--terracota);
+  font-size: 14px;
+  margin-bottom: 2px;
+  display: block;
+  font-weight: 600;
+}
+
+.popupInep {
+  font-size: 11px;
+  color: var(--text-light);
+}
+
+.popupDivider {
+  margin: 10px 0;
+  border: 0;
+  border-top: 1px solid #f1f5f9;
+}
+
+.tagAcessivel, .tagInacessivel {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.tagAcessivel {
+  background-color: var(--bg-success);
+  color: var(--text-success);
+}
+
+.tagInacessivel {
+  background-color: var(--bg-error);
+  color: var(--text-error);
+}
+
+.detalhesAcessibilidade {
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   ELEMENTOS CUSTOMIZADOS DO MAPA (MARCADORES & TOOLTIPS)
+   ========================================================================== */
+.marcadorEscolaContainer {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* O Balão Marcador vertical estável */
+.marcadorEscolaContainer :global(.conecta-pin-balao) {
+  position: relative;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background-color: var(--terracota);
+  width: 22px !important;
+  height: 22px !important;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 5px var(--shadow-color);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* Seta inferior do marcador */
+.marcadorEscolaContainer :global(.conecta-pin-seta) {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 4px 0;
+  border-style: solid;
+  border-color: var(--terracota) transparent transparent;
+  width: 0;
+  height: 0;
+  transition: border-color 0.2s ease;
+}
+
+/* Chapéu de Formatura (Aumentado para 15px) */
+.marcadorEscolaContainer :global(.conecta-pin-balao) > svg {
+  display: block !important;
+  width: 15px !important;
+  height: 15px !important;
+  fill: #ffffff !important;
+}
+
+/* Interações dos Pins */
+.marcadorEscolaContainer:hover :global(.conecta-pin-balao) {
+  transform: scale(1.15);
+  background-color: var(--marrom);
+  cursor: pointer;
+}
+
+.marcadorEscolaContainer:hover :global(.conecta-pin-seta) {
+  border-color: var(--marrom) transparent transparent;
+}
+
+/* Rótulo Flutuante do Nome da Escola */
+.nomeEscolaTooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--laranja-acento) !important;
+  font-family: 'Open Sans', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  white-space: nowrap;
+  text-shadow: 1px 1px 2px #000000, -1px 1px 2px #000000, 1px -1px 2px #000000, -1px -1px 2px #000000;
+}
+
+.nomeEscolaTooltip::before {
+  display: none !important;
+}
+
+/* ==========================================================================
+   BOTÃO DE GEOLOCALIZAÇÃO (Alvo posicionado de acordo com a nova altura)
+   ========================================================================== */
+.geoButton {
+  position: absolute;
+  bottom: 20px; /* Mantém uma margem confortável do fundo do mapa reduzido */
+  right: 20px;
+  z-index: 1000;
+  background-color: var(--terracota); 
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.geoButton:hover {
+  background-color: var(--marrom);
+  transform: scale(1.05);
+}
+
+.geoButton i,
+.geoButton svg { 
+  font-size: 24px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
