@@ -29,7 +29,7 @@ export const buscarEscolas = async (req: Request, res: Response) => {
             console.warn("Nenhum filtro de município fornecido. Retornando todas as escolas.");
         }
 
-        const { data, error } = await query.limit(2000);
+        const { data, error } = await query.limit(6000);
         if (error) throw error;
 
         res.json(data);
