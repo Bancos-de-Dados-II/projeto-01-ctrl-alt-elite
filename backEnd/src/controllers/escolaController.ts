@@ -19,11 +19,29 @@ export const buscarEscolas = async (req: Request, res: Response) => {
         const inicio = (pagina - 1) * limite;
         const fim = inicio + limite - 1;
 
-        // ... (seus if's de filtro PCD e Municipio continuam iguais aqui) ...
+        const pcd = req.query.pcd;
+        const municipio = req.query.municipio as string; 
+        if (pcd === 'true') {
+            // A escola precisa ter os 3 requisitos true para ser considerada acessível
+            query = query
+                .eq('acesso_total', true)
+                .eq('tem_rampa', true)
+                .eq('tem_banheiro_pcd', true); 
+        } 
+
+        if (pcd === 'false') {
+            query = query.or('acesso_total.eq.false,tem_rampa.eq.false,tem_banheiro_pcd.eq.false'); 
+        }
+
+        if (municipio) {
+            query = query.ilike('municipios.nome', `%${municipio}%`); 
+        } else {
+            console.warn("Nenhum filtro de município fornecido. Retornando todas as escolas.");
+        }
 
         // 3. O GATILHO COM RANGE
         const { data, error } = await query.range(inicio, fim);
-        
+
         if (error) throw error;
 
         res.json(data);
