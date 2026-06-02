@@ -1,118 +1,208 @@
-🏫 ConectaEnsino - Plataforma de Inclusão Educacional
-Status do Projeto: Frontend & Backend Concluídos e Operacionais em Produção 🚀
+# 🏫 ConectaEnsino - Plataforma de Inclusão Educacional
 
-O ConectaEnsino é uma plataforma de impacto social com foco na inclusão educacional, projetada para mapear e georreferenciar escolas acessíveis na região do Sertão Paraibano. O sistema calcula distâncias geográficas em tempo real a partir da localização do usuário, aplicando regras estritas de acessibilidade para conectar alunos e monitorias a polos educacionais adaptados.
+**Status do Projeto:** Frontend & Backend Concluídos e Operacionais em Produção 🚀
 
-🗺️ Arquitetura de Deploy (Produção)
+O **ConectaEnsino** é uma plataforma de impacto social com foco na inclusão educacional, projetada para mapear e georreferenciar escolas acessíveis na região do Sertão Paraibano.
+
+O sistema calcula distâncias geográficas em tempo real a partir da localização do usuário, aplicando regras estritas de acessibilidade para conectar alunos e monitorias a polos educacionais adaptados.
+
+---
+
+# 🗺️ Arquitetura de Deploy (Produção)
+
 A plataforma adota uma arquitetura desacoplada para otimização de custos e performance:
 
-Frontend: Hospedado de forma estática no GitHub Pages com compilação otimizada pelo Vite.
+### Frontend
+Hospedado de forma estática no GitHub Pages com compilação otimizada pelo Vite.
 
-Backend & Banco de Dados: Servidor RESTful hospedado no Render, comunicando-se com instâncias relacionais no Supabase e realizando queries espaciais.
+### Backend & Banco de Dados
+Servidor RESTful hospedado no Render, comunicando-se com instâncias relacionais no Supabase e realizando queries espaciais.
 
-📂 Estrutura do Repositório Monorepo
-Plaintext
+---
+
+# 📂 Estrutura do Repositório Monorepo
+
+```plaintext
 projeto-01-ctrl-alt-elite/
-├── package.json             # 🎛️ NOVO: Script Global de automação e instalação
+├── package.json             # 🎛️ Script global de automação e instalação
 ├── backEnd/                 # API RESTful (Hospedado no Render)
 │   ├── src/
 │   │   ├── config/          # Conexão Singleton de segurança com o Supabase
-│   │   ├── controllers/     # Regras estritas de filtragem, JOINs e lógica de negócio
+│   │   ├── controllers/     # Regras de filtragem, JOINs e lógica de negócio
 │   │   ├── routes/          # Mapeamento dos endpoints HTTP
 │   │   └── server.ts        # Ponto de entrada do servidor Express
-│   └── package.json         # Dependências do servidor (CORS, Express, etc.)
+│   └── package.json         # Dependências do servidor
 │
 └── frontEnd/                # Aplicação SPA React (Hospedado no GitHub Pages)
     ├── src/
-    │   ├── components/      # Subcomponentes (ex: BotaoGeolocalizacao)
-    │   ├── services/        # Cliente de API isolado via Axios (api.ts)
-    │   ├── Mapa.tsx         # Core do mapa, filtros de Haversine e renderização
-    │   └── Mapa.module.css  # CSS Modules otimizado com Design Tokens (:root)
-    ├── .env.production      # Injeção da URL de produção do Render
-    ├── vite.config.ts       # Configuração de caminhos base do GH Pages
-    └── package.json         # Scripts de automação de Deploy (gh-pages, react-icons)
-🛠️ Tecnologias & Dependências Prévias
-Backend (backEnd/package.json)
-Node.js & TypeScript: Ambiente de execução e tipagem estática segura.
+    │   ├── components/      # Componentes reutilizáveis
+    │   ├── services/        # Cliente de API via Axios
+    │   ├── Mapa.tsx         # Núcleo do mapa e filtros geográficos
+    │   └── Mapa.module.css  # Estilização via CSS Modules
+    ├── .env.production      # URL da API em produção
+    ├── vite.config.ts       # Configuração do GitHub Pages
+    └── package.json         # Scripts de deploy
+```
 
-Express: Framework HTTP de alta performance para rotas.
+---
 
-Cors (^2.8.5): Habilitado para permitir requisições seguras vindas do domínio do GitHub Pages.
+# 🛠️ Tecnologias Utilizadas
 
-Supabase JS Client (^2.43.0): Integração nativa com PostgreSQL e PostGIS.
+## Backend (`backEnd/package.json`)
 
-Frontend (frontEnd/package.json)
-React (^18.x) & Vite: Tooling ultra-rápido para o desenvolvimento do ecossistema.
+- **Node.js + TypeScript** – Ambiente de execução e tipagem estática.
+- **Express** – Framework para construção da API REST.
+- **Cors (^2.8.5)** – Permite requisições seguras do frontend.
+- **Supabase JS Client (^2.43.0)** – Integração com PostgreSQL e PostGIS.
 
-Leaflet (^1.9.4) & React-Leaflet (^4.2.1): Renderização de mapas e camadas de tiles vetoriais.
+## Frontend (`frontEnd/package.json`)
 
-Axios (^1.6.8): Cliente HTTP mapeado em api.ts.
+- **React (^18.x)** – Biblioteca para interfaces.
+- **Vite** – Ferramenta de build rápida.
+- **Leaflet (^1.9.4)** – Biblioteca de mapas.
+- **React-Leaflet (^4.2.1)** – Integração do Leaflet com React.
+- **Axios (^1.6.8)** – Cliente HTTP.
+- **React Icons (^5.2.1)** – Biblioteca de ícones.
+- **gh-pages (^6.1.1)** – Automação de deploy no GitHub Pages.
 
-React Icons (^5.2.1): Injeção do pacote nativo de ícones vetoriais (Material Design) para o GPS.
+---
 
-Gh-pages (^6.1.1): Automação de build e deploy por linha de comando.
+# ⚡ Instalação Rápida Monorepo
 
-⚡ Instalação Rápida Monorepo (Tudo de uma vez)
-Graças ao gerenciador global configurado na raiz do repositório, você não precisa mais entrar pasta por pasta para instalar os pacotes.
+Graças ao gerenciador global configurado na raiz do projeto, não é necessário instalar dependências separadamente.
 
-1. Instalar todas as dependências (Front e Back)
-Abra o terminal na raiz do projeto (onde fica o package.json global) e execute:
+## 1. Instalar todas as dependências
 
-Bash
+Na raiz do projeto, execute:
+
+```bash
 npm run install-all
-Esse comando instalará simultaneamente todas as ferramentas do Backend e todas as bibliotecas do Frontend, incluindo o mapa do Leaflet e o pacote vetorial de ícones.
+```
 
-2. Comandos Rápidos de Execução
-Ainda a partir da raiz do projeto, você pode rodar os ambientes separadamente usando:
+Esse comando instalará simultaneamente as dependências do Backend e do Frontend.
 
-Para iniciar o Backend: npm run dev-back
+---
 
-Para iniciar o Frontend: npm run dev-front
+## 2. Executar o projeto
 
-⚙️ Configuração das Variáveis de Ambiente
-Antes de rodar, certifique-se de configurar as credenciais nas subpastas:
+### Iniciar o Backend
 
-No Backend (/backEnd/.env):
+```bash
+npm run dev-back
+```
 
-Snippet de código
+### Iniciar o Frontend
+
+```bash
+npm run dev-front
+```
+
+---
+
+# ⚙️ Configuração das Variáveis de Ambiente
+
+## Backend (`/backEnd/.env`)
+
+```env
 PORT=3000
 SUPABASE_URL=sua_url_do_supabase_aqui
 SUPABASE_KEY=sua_chave_anon_aqui
-No Frontend (/frontEnd/.env.production):
+```
 
-Snippet de código
+## Frontend (`/frontEnd/.env.production`)
+
+```env
 VITE_API_URL=https://api-conecta-ensino.onrender.com
-📡 Documentação de Endpoints da API
-1. Listagem Geral de Escolas
-Retorna a lista de escolas cadastradas. O limite de segurança por query é de 2000 pontos.
+```
 
-Método: GET | Rota: /escolas
+---
 
-Query Parameters:
+# 📡 Documentação da API
 
-municipio (string): Filtra pelo nome exato da cidade via INNER JOIN.
+## 1. Listagem Geral de Escolas
 
-pcd (boolean): Filtra escolas com acessibilidade total.
+Retorna a lista de escolas cadastradas.
 
-Regra de Negócio: O filtro pcd=true exige validação simultânea de 3 colunas em nível de banco: acesso_total, tem_rampa E tem_banheiro_pcd.
+**Método:** `GET`
 
-2. Filtro por Raio Dinâmico (Proximidade)
-Dispara os cálculos esféricos com base na posição atual enviada pelo botão de alvo do GPS.
+**Rota:**
 
-Método: GET | Rota: /escolas/proximas
+```http
+/escolas
+```
 
-Query Parameters: lat (float), lng (float), raio (float opcional, padrão 10km).
+### Query Parameters
 
-🚀 Fluxo Automatizado de Deploy (Frontend)
-O deploy do front-end está automatizado diretamente pelo terminal via pacote gh-pages.
+| Parâmetro | Tipo | Descrição |
+|-----------|------|-----------|
+| municipio | string | Filtra pelo nome exato da cidade |
+| pcd | boolean | Filtra escolas com acessibilidade total |
 
-Certifique-se de que o caminho base está ajustado no seu vite.config.ts.
+### Regra de Negócio
 
-Vá até a pasta do frontend e execute:
+O filtro `pcd=true` exige validação simultânea de:
 
-Bash
+- `acesso_total`
+- `tem_rampa`
+- `tem_banheiro_pcd`
+
+O limite de segurança por consulta é de **2000 registros**.
+
+---
+
+## 2. Escolas Próximas
+
+Realiza cálculos geográficos com base na localização atual do usuário.
+
+**Método:** `GET`
+
+**Rota:**
+
+```http
+/escolas/proximas
+```
+
+### Query Parameters
+
+| Parâmetro | Tipo |
+|-----------|------|
+| lat | float |
+| lng | float |
+| raio | float (opcional, padrão 10 km) |
+
+---
+
+# 🚀 Deploy do Frontend
+
+O deploy está automatizado através do pacote **gh-pages**.
+
+Certifique-se de que o caminho base está configurado corretamente em `vite.config.ts`.
+
+Entre na pasta do frontend:
+
+```bash
 cd frontEnd
-npm run deploy
-O script disparará o predeploy, gerará a compilação estática comprimida na pasta /dist, injetará a URL de produção do Render e atualizará a branch gh-pages no GitHub de forma 100% automatizada.
+```
 
-O site estará disponível em: https://github.com/Bancos-de-Dados-II/projeto-01-ctrl-alt-elite.git
+Execute:
+
+```bash
+npm run deploy
+```
+
+O script irá:
+
+1. Executar o build da aplicação.
+2. Gerar os arquivos otimizados na pasta `dist`.
+3. Atualizar automaticamente a branch `gh-pages`.
+4. Publicar a nova versão no GitHub Pages.
+
+---
+
+# 🌐 Repositório
+
+GitHub:
+
+https://github.com/Bancos-de-Dados-II/projeto-01-ctrl-alt-elite
+
+---
