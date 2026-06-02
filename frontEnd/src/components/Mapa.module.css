@@ -355,3 +355,240 @@
   justify-content: center;
   align-items: center;
 }
+/* ── NOVOS ESTILOS (Parte 4) ─────────────────────────────────────────────── */
+
+/* Título e divisor da sidebar */
+.tituloFiltrar {
+  font-size: 18px;
+  color: var(--text-main);
+  margin: 0 0 4px 0;
+  font-weight: 600;
+}
+
+.divisorFiltrar {
+  border: none;
+  border-top: 1px solid var(--border-light);
+  margin: 0;
+}
+
+/* Seção de filtro de acessibilidade */
+.filtroSecao {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filtroOpcao {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  background: #f8fafc;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-main);
+  text-align: left;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.filtroOpcao:hover {
+  background: #fef3ef;
+  border-color: var(--terracota);
+}
+
+.filtroAtivo {
+  background: #fef3ef !important;
+  border-color: var(--terracota) !important;
+  color: var(--terracota) !important;
+  font-weight: 600;
+}
+
+.filtroContagem {
+  margin-left: auto;
+  background: var(--terracota);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Grupos colapsáveis (Disciplinas / Institutos) */
+.filtroGrupo {
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.filtroGrupoHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+  transition: background 0.15s;
+}
+
+.filtroGrupoHeader:hover {
+  background: #fef3ef;
+}
+
+.filtroGrupoConteudo {
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+}
+
+.filtroItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.filtroItem:last-child {
+  border-bottom: none;
+}
+
+.filtroItem:hover {
+  background: #fef3ef;
+  color: var(--terracota);
+}
+
+.filtroSeta {
+  margin-left: auto;
+  color: var(--text-light);
+}
+
+/* Localização atual */
+.topoEsquerda {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.localizacaoAtual {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.localizacaoAtual strong {
+  color: var(--text-main);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Barra de busca */
+.barraBusca {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  max-width: 360px;
+}
+
+.inputBusca {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--text-main);
+  background: transparent;
+}
+
+.inputBusca::placeholder {
+  color: var(--text-light);
+}
+
+.btnBuscar {
+  padding: 10px 14px;
+  background: var(--terracota);
+  border: none;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.btnBuscar:hover:not(:disabled) {
+  background: var(--marrom);
+}
+
+.btnBuscar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Tabs inferiores */
+.tabsContainer {
+  display: flex;
+  border-top: 1px solid var(--border-light);
+  background: white;
+  padding: 10px 16px;
+  gap: 8px;
+}
+
+.tab {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  background: white;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  background: #fef3ef;
+  border-color: var(--terracota);
+  color: var(--terracota);
+}
+
+.tabAtiva {
+  background: var(--terracota) !important;
+  border-color: var(--terracota) !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+/* Município no popup */
+.popupMunicipio {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Ajusta o mapContainer para flex vertical (para as tabs ficarem no fundo) */
+.mapContainer {
+  display: flex;
+  flex-direction: column;
+}
