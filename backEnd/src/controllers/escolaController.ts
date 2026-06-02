@@ -9,6 +9,16 @@ export const buscarEscolas = async (req: Request, res: Response) => {
             municipios!inner(nome)
         `);
 
+        // 1. CAPTURANDO A PÁGINA (Por padrão, será a página 1)
+        const pagina = parseInt(req.query.pagina as string) || 1;
+        const limite = parseInt(req.query.limite as string) || 6000;
+
+        // 2. MATEMÁTICA DA PAGINAÇÃO
+        // Se a página for 1: começa no 0 e vai até 1999
+        // Se a página for 2: começa no 2000 e vai até 3999
+        const inicio = (pagina - 1) * limite;
+        const fim = inicio + limite - 1;
+
         const pcd = req.query.pcd;
         const municipio = req.query.municipio as string; 
         if (pcd === 'true') {
@@ -18,7 +28,7 @@ export const buscarEscolas = async (req: Request, res: Response) => {
                 .eq('tem_rampa', true)
                 .eq('tem_banheiro_pcd', true); 
         } 
-        
+
         if (pcd === 'false') {
             query = query.or('acesso_total.eq.false,tem_rampa.eq.false,tem_banheiro_pcd.eq.false'); 
         }
@@ -29,7 +39,9 @@ export const buscarEscolas = async (req: Request, res: Response) => {
             console.warn("Nenhum filtro de município fornecido. Retornando todas as escolas.");
         }
 
-        const { data, error } = await query.limit(6000);
+        // 3. O GATILHO COM RANGE
+        const { data, error } = await query.range(inicio, fim);
+
         if (error) throw error;
 
         res.json(data);

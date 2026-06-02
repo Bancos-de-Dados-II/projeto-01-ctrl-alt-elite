@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Bancos-de-Dados-II/projeto-01-ctrl-alt-elite#readme",
   "dependencies": {
     "@supabase/supabase-js": "^2.106.2",
+    "conecta-ensino-root": "file:..",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1"
