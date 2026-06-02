@@ -44,7 +44,9 @@ export const buscarEscolas = async (req: Request, res: Response) => {
 
         if (error) throw error;
 
-        res.json(data);
+        // Limita a 100 escolas mais próximas
+        const limitado = Array.isArray(data) ? data.slice(0, 100) : data;
+        res.json(limitado);
     } catch (error: any) {
         console.error("Erro ao buscar escolas:", error.message);
         res.status(500).json({ erro: 'Falha interna ao buscar as escolas.' });
@@ -107,7 +109,9 @@ export const buscarProximas = async (req: Request, res: Response) => {
 
         if (error) throw error;
 
-        res.json(data);
+        // Limita a 100 escolas mais próximas
+        const limitado = Array.isArray(data) ? data.slice(0, 100) : data;
+        res.json(limitado);
     } catch (error: any) {
         console.error("Erro na busca espacial:", error.message);
         res.status(500).json({ erro: 'Falha interna na busca por geolocalização.' });
