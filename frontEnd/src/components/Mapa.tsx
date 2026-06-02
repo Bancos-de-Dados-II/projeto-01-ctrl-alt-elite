@@ -19,18 +19,6 @@ interface BotaoGeolocalizacaoProps {
   setNomeCidade: React.Dispatch<React.SetStateAction<string>>;
 }
 
-// ─── Haversine ───────────────────────────────────────────────────────────────
-
-function calcularDistancia(lat1: number, lon1: number, lat2: number, lon2: number): number {
-  const R = 6371;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
-
 // ─── Nominatim reverso ───────────────────────────────────────────────────────
 
 async function reverseGeocode(lat: number, lng: number): Promise<string> {
@@ -121,7 +109,7 @@ function BotaoGeolocalizacao({ setPosicaoUsuario, setNomeCidade }: BotaoGeolocal
     };
 
     const onLocationError = () => {
-      alert('Não foi possível acessar sua localização. Usando o IFPB como referência padrão.');
+      alert('Não foi possível acessar sua localização. Usando Cajazeiras como referência padrão.');
     };
 
     map.on('locationfound', onLocationFound);
@@ -150,7 +138,10 @@ export function Mapa({ modoEscuro }: MapaProps) {
   const [escolas, setEscolas] = useState<Escola[]>([]);
   const [loading, setLoading] = useState(true);
   const [posicaoUsuario, setPosicaoUsuario] = useState<[number, number] | null>(posicaoInicial);
-  const [raioBusca, setRaioBusca] = useState<number>(20);
+  
+  // Raio inicia com 100km, o que é um bom alcance inicial para cidades vizinhas
+  const [raioBusca, setRaioBusca] = useState<number>(100); 
+  
   const [nomeCidade, setNomeCidade] = useState<string>('Cajazeiras - PB');
   const [tabAtiva, setTabAtiva] = useState<TabAtiva>('escolas');
   const [filtroPCD, setFiltroPCD] = useState<boolean | null>(null);
@@ -173,14 +164,32 @@ export function Mapa({ modoEscuro }: MapaProps) {
     bgGrupo: modoEscuro ? '#0f172a' : '#f8fafc',
   };
 
+  // 🚀 AQUI ACONTECE A INTEGRAÇÃO ARQUITETURAL
+  // Sempre que a posição ou o raio mudarem, pedimos ao Backend para trabalhar!
   useEffect(() => {
-    const params: Record<string, string> = {};
-    if (filtroPCD !== null) params.pcd = String(filtroPCD);
+    const carregarEscolas = async () => {
+      setLoading(true);
+      try {
+        let dados: Escola[] = [];
+        
+        if (!posicaoUsuario) {
+          // Fallback de segurança se não houver localização
+          dados = await getEscolas(); 
+        } else {
+          // O Backend Node.js + PostGIS assume o cálculo de distância
+          dados = await getEscolasProximas(posicaoUsuario[0], posicaoUsuario[1], raioBusca);
+        }
+        
+        setEscolas(dados);
+      } catch (error) {
+        console.error('Erro ao buscar escolas por localização:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    getEscolas(params)
-      .then((dados) => { setEscolas(dados); setLoading(false); })
-      .catch((err) => { console.error('Erro ao buscar escolas:', err); setLoading(false); });
-  }, [filtroPCD]);
+    carregarEscolas();
+  }, [posicaoUsuario, raioBusca]); // Array de dependências focado na geolocalização
 
   const executarBusca = useCallback(async () => {
     if (!textoBusca.trim()) return;
@@ -199,9 +208,11 @@ export function Mapa({ modoEscuro }: MapaProps) {
     if (e.key === 'Enter') executarBusca();
   };
 
+  // Filtro puramente visual (PCD) executado instantaneamente no array que chegou do banco
   const escolasFiltradas = escolas.filter((escola) => {
-    if (!posicaoUsuario) return true;
-    return calcularDistancia(posicaoUsuario[0], posicaoUsuario[1], escola.latitude, escola.longitude) <= raioBusca;
+    if (filtroPCD === true && !escola.acesso_total) return false;
+    if (filtroPCD === false && escola.acesso_total) return false;
+    return true;
   });
 
   const criarIcone = (acessivel: boolean) =>
@@ -221,11 +232,11 @@ export function Mapa({ modoEscuro }: MapaProps) {
       `,
     });
 
-  if (loading) {
+  if (loading && escolas.length === 0) {
     return (
       <div className={styles.loadingContainer} style={{ backgroundColor: modoEscuro ? '#1e293b' : undefined }}>
         <div className={styles.spinner}></div>
-        <p style={{ color: modoEscuro ? '#94a3b8' : undefined }}>Buscando escolas acessíveis no banco de dados...</p>
+        <p style={{ color: modoEscuro ? '#94a3b8' : undefined }}>Conectando aos servidores do PostGIS...</p>
       </div>
     );
   }
@@ -338,14 +349,14 @@ export function Mapa({ modoEscuro }: MapaProps) {
             </div>
           </div>
 
-          {/* Slider */}
+          {/* Slider conectado com a API do Backend */}
           <div className={styles.sliderSuperior}>
             <div className={styles.sliderLabel} style={{ color: cor.textoMuted }}>
               <span>Distância de busca:</span>
               <strong className={styles.sliderValor}>{raioBusca} km</strong>
             </div>
             <input
-              type="range" min="1" max="100" value={raioBusca}
+              type="range" min="5" max="300" value={raioBusca}
               onChange={(e) => setRaioBusca(Number(e.target.value))}
               className={styles.sliderInput}
             />

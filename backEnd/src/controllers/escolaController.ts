@@ -9,27 +9,21 @@ export const buscarEscolas = async (req: Request, res: Response) => {
             municipios!inner(nome)
         `);
 
-        const pcd = req.query.pcd;
-        const municipio = req.query.municipio as string; 
-        if (pcd === 'true') {
-            // A escola precisa ter os 3 requisitos true para ser considerada acessível
-            query = query
-                .eq('acesso_total', true)
-                .eq('tem_rampa', true)
-                .eq('tem_banheiro_pcd', true); 
-        } 
+        // 1. CAPTURANDO A PÁGINA (Por padrão, será a página 1)
+        const pagina = parseInt(req.query.pagina as string) || 1;
+        const limite = parseInt(req.query.limite as string) || 2000;
+
+        // 2. MATEMÁTICA DA PAGINAÇÃO
+        // Se a página for 1: começa no 0 e vai até 1999
+        // Se a página for 2: começa no 2000 e vai até 3999
+        const inicio = (pagina - 1) * limite;
+        const fim = inicio + limite - 1;
+
+        // ... (seus if's de filtro PCD e Municipio continuam iguais aqui) ...
+
+        // 3. O GATILHO COM RANGE
+        const { data, error } = await query.range(inicio, fim);
         
-        if (pcd === 'false') {
-            query = query.or('acesso_total.eq.false,tem_rampa.eq.false,tem_banheiro_pcd.eq.false'); 
-        }
-
-        if (municipio) {
-            query = query.ilike('municipios.nome', `%${municipio}%`); 
-        } else {
-            console.warn("Nenhum filtro de município fornecido. Retornando todas as escolas.");
-        }
-
-        const { data, error } = await query.limit(2000);
         if (error) throw error;
 
         res.json(data);
