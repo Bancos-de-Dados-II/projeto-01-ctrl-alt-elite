@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Configura o axios para apontar para o seu backend
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: 'https://api-conecta-ensino.onrender.com', 
 });
 
 // Interface para o TypeScript entender como os dados da escola chegam do banco
